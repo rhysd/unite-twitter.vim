@@ -29,6 +29,7 @@ function! s:source.hooks.on_init(args, context)
 endfunction
 
 function! s:source.async_gather_candidates(args, context)
+    let a:context.source.unite__cached_candidates = []
     return map(unite#twitter#home_timeline(), "{
                 \ 'word' : '@'.v:val.user.screen_name.': '.v:val.text.' ['.v:val.created_at.']',
                 \ 'is_multiline' : 1,
