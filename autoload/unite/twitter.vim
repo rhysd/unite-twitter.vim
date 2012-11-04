@@ -52,15 +52,25 @@ endfunction
 
 function! unite#twitter#home_timeline()
     try
-        return s:twibill().home_timeline()
+        let result = s:twibill().home_timeline()
     catch
         echohl Error
-        echo 'error when getting hometimeline data'
+        echo 'network error when getting hometimeline data'
         echo v:throwpoint
         echo v:exception
         echohl None
-        return {}
+        return []
     endtry
+
+    if has_key(result, 'error')
+        echohl Error
+        echo 'Twitter API returns error when getting hometimeline data'
+        echo 'error: '.result.error
+        echohl None
+        return []
+    endif
+
+    return result
 endfunction
 
 function! unite#twitter#screen_name()
