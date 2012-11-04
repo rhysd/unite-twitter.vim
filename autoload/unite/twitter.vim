@@ -62,7 +62,7 @@ function! unite#twitter#home_timeline()
         return []
     endtry
 
-    if has_key(result, 'error')
+    if type(result) == type({}) && has_key(result, 'error')
         echohl Error
         echo 'Twitter API returns error when getting hometimeline data'
         echo 'error: '.result.error
