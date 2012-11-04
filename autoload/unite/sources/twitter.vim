@@ -24,8 +24,7 @@ let s:SID = s:get_SID()
 delfunction s:get_SID
 "}}}
 
-function! s:source.hooks.on_init(args, context)
-    let a:context.update_time = g:unite_twitter_update_milliseconds
+function! s:make_candidate(status)
 endfunction
 
 function! s:source.async_gather_candidates(args, context)
