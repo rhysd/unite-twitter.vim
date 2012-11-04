@@ -11,3 +11,5 @@ call s:set_global('unite_twitter_update_milliseconds', 600000)
 if ! isdirectory(g:unite_twitter_config_dir)
     call mkdir(g:unite_twitter_config_dir, 'p')
 endif
+
+command! -nargs=? Utwit execute 'Unite' 'twitter' '-update-time='.&updatetime
