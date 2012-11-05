@@ -17,24 +17,37 @@ endfunction
 "}}}
 
 function! s:source.hooks.on_init(args, context)
-    let a:context.source__counter = 2
+    let a:context.source__count_limit =
+                \ (empty(a:args) ? g:unite_twitter_update_seconds : str2nr(a:args[0]))
+                \   * 1000 / a:context.update_time
+    if a:context.source__count_limit == 0
+        let a:context.source__count_limit = 1
+    endif
+    let a:context.source__counter = a:context.source__count_limit
 endfunction
 
-" get script local ID
-function! s:source.async_gather_candidates(args, context)
-    " TODO 更新間隔を updatetime の倍数に設定できるように（設定自体は絶対秒で
-    " 指定できるようにする）
-    if a:context.source__counter < 2
-        let a:context.source__counter += 1
-        return []
-    endif
+function! s:source.hooks.on_syntax(args, context)
+    
+endfunction
 
+function! s:update(context)
     let a:context.source__counter = 0
     let a:context.source.unite__cached_candidates = []
     return map(unite#twitter#home_timeline(), "{
                 \ 'word' : '@'.v:val.user.screen_name.': '.v:val.text.' ['.v:val.created_at.']',
                 \ 'is_multiline' : 1,
                 \ }")
+endfunction
+
+" get script local ID
+function! s:source.async_gather_candidates(args, context)
+    echo "utwit:".a:context.source__counter
+    if a:context.source__counter < a:context.source__count_limit
+        let a:context.source__counter += 1
+        return []
+    endif
+
+    return s:update(a:context)
 endfunction
 
 let &cpo = s:save_cpo
