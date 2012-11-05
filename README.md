@@ -5,6 +5,5 @@ If you want more features, try to use TweetVim made by @basyura.
 
 ## Requirements
 
-- webapi-vim
 - open-browser.vim
 - twibill.vim
