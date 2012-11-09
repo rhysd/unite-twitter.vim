@@ -12,13 +12,18 @@ If you want more features, try to use TweetVim made by @basyura.
 
 Simply do `:Utwit` command.
 If you use this command at first time, a browser will be opened and you must authenticate the application.
+In unite-twitter buffer, you can choose next tweet by typing `<CR>`.
 
 All `:Unite` options are available in `:Utwit` too, except `-update-time=` option.
 
-If you want to change winwidth or winheight, an example is below.
+If you don't want to start in insert mode,
+
+    :UTwit -no-start-insert
+
+If you want to change winwidth or winheight,
 
     :UTwit -winwidth=70 -vertical
 
-If you want to remove a cursor highlight, an example is below.
+If you want to remove a cursor highlight,
 
     :UTwit -no-cursor-line
