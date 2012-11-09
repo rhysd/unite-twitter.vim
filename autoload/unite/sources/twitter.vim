@@ -18,17 +18,16 @@ endfunction
 "}}}
 
 function! s:source.hooks.on_init(args, context)
-    let a:context.source__count_limit =
-                \ (empty(a:args) ? g:unite_twitter_update_seconds : str2nr(a:args[0]))
-                \   * 1000 / a:context.update_time
-    if a:context.source__count_limit == 0
-        let a:context.source__count_limit = 1
-    endif
-    let a:context.source__counter = a:context.source__count_limit
+    " init timestamp
+    let a:context.source__interval_seconds =
+                \ empty(a:args) ? g:unite_twitter_update_seconds : str2nr(a:args[0])
+    call writefile([localtime() - a:context.source__interval_seconds],
+                \ g:unite_twitter_config_dir.'/last_update')
 
     " for highlight
     setlocal conceallevel=2
     setlocal concealcursor=nc
+
 endfunction
 
 function! s:source.hooks.on_syntax(args, context)
@@ -56,6 +55,9 @@ function! s:update(context)
                         \ g:unite_twitter_separator]
     endfor
 
+    " update a timestamp
+    call writefile([localtime()], g:unite_twitter_config_dir.'/last_update')
+
     return map( timeline, "{
                 \ 'word' : v:val,
                 \ 'is_multiline' : 1,
@@ -64,8 +66,10 @@ endfunction
 
 " get script local ID
 function! s:source.async_gather_candidates(args, context)
-    if a:context.source__counter < a:context.source__count_limit
-        let a:context.source__counter += 1
+    " read timestamp and now seconds
+    let last_update = readfile(g:unite_twitter_config_dir.'/last_update')[0]
+
+    if localtime() - last_update <= a:context.source__interval_seconds
         return []
     endif
 
