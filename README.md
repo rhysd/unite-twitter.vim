@@ -5,8 +5,9 @@ If you want more features, try to use TweetVim made by @basyura.
 
 ## Requirements
 
-- open-browser.vim
-- twibill.vim
+- [unite.vim](https://github.com/Shougo/unite.vim) (interface)
+- [open-browser.vim](https://github.com/tyru/open-browser.vim) (for authentication)
+- [twibill.vim](https://github.com/basyura/twibill.vim) (Twitter API wrapper for Vim script)
 
 ## Usage
 
