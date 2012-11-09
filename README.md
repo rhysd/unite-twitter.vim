@@ -32,4 +32,4 @@ If you want to remove a cursor highlight,
 
 ## Screen capture
 
-[screen capture](https://raw.github.com/rhysd/unite-twitter.vim/master/screen_capture.jpg)
+![screen capture](https://raw.github.com/rhysd/unite-twitter.vim/master/screen_capture.jpg)
