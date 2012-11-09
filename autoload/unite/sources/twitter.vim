@@ -58,7 +58,7 @@ function! s:update(context)
                     \ : tweet.text
         let text = substitute(tweet.text, '[\n]', ' ', 'g')
         let timeline += ['@'. tweet.user.screen_name . '   [<[' . tweet.created_at . ']>]',
-                        \ text
+                        \ text,
                         \ g:unite_twitter_separator]
     endfor
 
