@@ -1,6 +1,7 @@
 ## twitter source for unite.vim
 
-A Twitter timeline in unite.vim with an asynchronous update. This is a kind of testing. I may make pull-request to TweetVim if this'd make it.
+A Twitter timeline in unite.vim with an asynchronous update.
+This is a temporary plugin until TweetVim can update asynchronously and automatically.
 If you want more features, try to use TweetVim made by @basyura.
 
 ## Requirements
