@@ -19,4 +19,4 @@ command! -nargs=? Utwit execute 'Unite'
             \ '-update-time='.&updatetime 
             \ '-no-cursor-line'
             \ '-no-start-insert'
-            \ '-winheight='.g:unite_twitter_num_of_tweets
+            \ '-vertical'
