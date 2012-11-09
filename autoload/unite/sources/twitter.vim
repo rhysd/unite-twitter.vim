@@ -51,8 +51,9 @@ function! s:update(context)
                 \ 'per_page' : g:unite_twitter_num_of_tweets,
                 \ 'count' : g:unite_twitter_num_of_tweets
                 \ })
-        let timeline += ['@'. tweet.user.screen_name . '   ' . tweet.created_at,
-                        \ substitute(tweet.text, '[\n]', ' ', 'g')]
+        let timeline += ['@'. tweet.user.screen_name . '   [<[' . tweet.created_at . ']>]',
+                        \ substitute(tweet.text, '[\n]', ' ', 'g'),
+                        \ g:unite_twitter_separator]
     endfor
 
     return map( timeline, "{
