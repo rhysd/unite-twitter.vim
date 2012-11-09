@@ -21,8 +21,7 @@ endfunction
 function! s:source.hooks.on_init(args, context)
     " init timestamp
     let a:context.source__interval_seconds = g:unite_twitter_update_seconds
-    call writefile([localtime() - a:context.source__interval_seconds - 1],
-                \ g:unite_twitter_config_dir.'/last_update')
+    let a:context.source__timestamp = localtime() - a:context.source__interval_seconds - 1
 
     " for highlight
     setlocal conceallevel=2
@@ -36,8 +35,10 @@ function! s:source.hooks.on_syntax(args, context)
     syntax match uniteSource__Twitter_Time       /\[<\[[^\]]\+\]>\]/ contained containedin=uniteSource__Twitter
     syntax match uniteSource__Twitter_TimeBlock  /\[<\[/ conceal contained containedin=uniteSource__Twitter_Time
     syntax match uniteSource__Twitter_TimeBlock  /\]>\]/ conceal contained containedin=uniteSource__Twitter_Time
+    syntax match uniteSource__Twitter_TimeBlock  /#[^ \t]\+/ conceal contained containedin=uniteSource__Twitter_Hashtag
     highlight default link uniteSource__Twitter_ScreenName String
     highlight default link uniteSource__Twitter_Time       NonText
+    highlight default link uniteSource__Twitter_Hashtag    Constant
     highlight default link uniteSource__Twitter_TimeBlock  Ignore
 endfunction
 "}}}
@@ -57,9 +58,6 @@ function! s:update(context)
                         \ g:unite_twitter_separator]
     endfor
 
-    " update a timestamp
-    call writefile([localtime()], g:unite_twitter_config_dir.'/last_update')
-
     return map( timeline, "{
                 \ 'word' : v:val,
                 \ 'is_multiline' : 1,
@@ -67,13 +65,14 @@ function! s:update(context)
 endfunction
 
 function! s:source.async_gather_candidates(args, context)
-    " read timestamp and now seconds
-    let last_update = readfile(g:unite_twitter_config_dir.'/last_update')[0]
-
-    if localtime() - last_update <= a:context.source__interval_seconds
+    " check timestamp
+    let now = localtime()
+    if now - a:context.source__timestamp
+                \ <= a:context.source__interval_seconds
         return []
     endif
 
+    let a:context.source__timestamp = now
     return s:update(a:context)
 endfunction
 "}}}
