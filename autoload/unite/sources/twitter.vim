@@ -17,11 +17,12 @@ function! unite#sources#twitter#define()
 endfunction
 "}}}
 
+" init and syntax hooks "{{{
 function! s:source.hooks.on_init(args, context)
     " init timestamp
     let a:context.source__interval_seconds =
                 \ empty(a:args) ? g:unite_twitter_update_seconds : str2nr(a:args[0])
-    call writefile([localtime() - a:context.source__interval_seconds],
+    call writefile([localtime() - a:context.source__interval_seconds - 1],
                 \ g:unite_twitter_config_dir.'/last_update')
 
     " for highlight
@@ -40,7 +41,9 @@ function! s:source.hooks.on_syntax(args, context)
     highlight default link uniteSource__Twitter_Time       NonText
     highlight default link uniteSource__Twitter_TimeBlock  Ignore
 endfunction
+"}}}
 
+" gather candidates asynchronously "{{{
 function! s:update(context)
     let a:context.source__counter = 0
     let a:context.source.unite__cached_candidates = []
@@ -64,7 +67,6 @@ function! s:update(context)
                 \ }")
 endfunction
 
-" get script local ID
 function! s:source.async_gather_candidates(args, context)
     " read timestamp and now seconds
     let last_update = readfile(g:unite_twitter_config_dir.'/last_update')[0]
@@ -75,6 +77,7 @@ function! s:source.async_gather_candidates(args, context)
 
     return s:update(a:context)
 endfunction
+"}}}
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
