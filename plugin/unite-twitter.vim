@@ -12,4 +12,4 @@ if ! isdirectory(g:unite_twitter_config_dir)
     call mkdir(g:unite_twitter_config_dir, 'p')
 endif
 
-command! -nargs=? Utwit execute 'Unite' 'twitter:'.<q-args> '-update-time='.&updatetime
+command! -nargs=? Utwit execute 'Unite' 'twitter:'.<q-args> '-update-time='.&updatetime '-no-cursor-line'
