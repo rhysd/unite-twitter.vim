@@ -50,9 +50,10 @@ function! unite#twitter#get_token()
     endtry
 endfunction
 
-function! unite#twitter#home_timeline()
+function! unite#twitter#home_timeline(...)
+    let params = empty(a:000) ? [] : [a:1]
     try
-        let result = s:twibill().home_timeline()
+        let result = s:twibill().home_timeline(params)
     catch
         echohl Error
         echo 'network error when getting hometimeline data'

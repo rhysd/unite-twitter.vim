@@ -45,7 +45,11 @@ endfunction
 function! s:update(context)
     let a:context.source__counter = 0
     let a:context.source.unite__cached_candidates = []
-    return map(unite#twitter#home_timeline(), "{
+    let timeline = unite#twitter#home_timeline({
+                \ 'per_page' : g:unite_twitter_num_of_tweets,
+                \ 'count' : g:unite_twitter_num_of_tweets
+                \ })
+    return map( timeline, "{
                 \ 'word' : '@'.v:val.user.screen_name.': '.v:val.text.' [<['.v:val.created_at.']>]',
                 \ 'is_multiline' : 1,
                 \ }")
