@@ -20,8 +20,7 @@ endfunction
 " init and syntax hooks "{{{
 function! s:source.hooks.on_init(args, context)
     " init timestamp
-    let a:context.source__interval_seconds =
-                \ empty(a:args) ? g:unite_twitter_update_seconds : str2nr(a:args[0])
+    let a:context.source__interval_seconds = g:unite_twitter_update_seconds
     call writefile([localtime() - a:context.source__interval_seconds - 1],
                 \ g:unite_twitter_config_dir.'/last_update')
 
