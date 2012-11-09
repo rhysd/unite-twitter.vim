@@ -53,8 +53,12 @@ function! s:update(context)
                 \ 'per_page' : g:unite_twitter_num_of_tweets,
                 \ 'count' : g:unite_twitter_num_of_tweets
                 \ })
+        let text = has_key(tweet, 'retweeted_status')
+                    \ ? 'RT @' . tweet.retweeted_status.user.screen_name . ': ' . tweet.retweeted_status.text
+                    \ : tweet.text
+        let text = substitute(tweet.text, '[\n]', ' ', 'g')
         let timeline += ['@'. tweet.user.screen_name . '   [<[' . tweet.created_at . ']>]',
-                        \ substitute(tweet.text, '[\n]', ' ', 'g'),
+                        \ text
                         \ g:unite_twitter_separator]
     endfor
 
