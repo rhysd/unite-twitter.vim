@@ -29,3 +29,7 @@ If you want to change winwidth or winheight,
 If you want to remove a cursor highlight,
 
     :UTwit -no-cursor-line
+
+## Screen capture
+
+[screen capture](https://raw.github.com/rhysd/unite-twitter.vim/master/screen_capture.jpg)
