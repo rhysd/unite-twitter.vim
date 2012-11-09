@@ -51,7 +51,7 @@ function! unite#twitter#get_token()
 endfunction
 
 function! unite#twitter#home_timeline(...)
-    let params = empty(a:000) ? [] : [a:1]
+    let params = empty(a:000) ? {} : a:1
     try
         let result = s:twibill().home_timeline(params)
     catch
