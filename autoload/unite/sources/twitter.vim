@@ -8,6 +8,7 @@ let s:source = {
     \   "name" : "twitter",
     \   "description" : "A Twitter timeline in unite.vim with a asynchronous update",
     \   "action_table" : {},
+    \   "default_action" : "next_tweet",
     \   "hooks" : {},
     \   "syntax" : "uniteSource__Twitter",
     \}
@@ -26,7 +27,6 @@ function! s:source.hooks.on_init(args, context)
     " for highlight
     setlocal conceallevel=2
     setlocal concealcursor=nc
-
 endfunction
 
 function! s:source.hooks.on_syntax(args, context)
@@ -74,6 +74,19 @@ function! s:source.async_gather_candidates(args, context)
 
     let a:context.source__timestamp = now
     return s:update(a:context)
+endfunction
+"}}}
+
+" actions "{{{
+let s:source.action_table.next_tweet = {
+            \ 'description' : 'choose next tweet',
+            \ 'is_quit' : 0
+            \ }
+
+function! s:source.action_table.next_tweet.func(candidate)
+    if ! search('\n-\s\+'.g:unite_twitter_separator.'\s*\n\zs-\s\+@\w\+\s\+')
+        normal gg
+    endif
 endfunction
 "}}}
 
