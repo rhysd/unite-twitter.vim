@@ -45,12 +45,18 @@ endfunction
 function! s:update(context)
     let a:context.source__counter = 0
     let a:context.source.unite__cached_candidates = []
-    let timeline = unite#twitter#home_timeline({
+    let timeline = []
+
+    for tweet in unite#twitter#home_timeline({
                 \ 'per_page' : g:unite_twitter_num_of_tweets,
                 \ 'count' : g:unite_twitter_num_of_tweets
                 \ })
+        let timeline += ['@'. tweet.user.screen_name . '   ' . tweet.created_at,
+                        \ substitute(tweet.text, '[\n]', ' ', 'g')]
+    endfor
+
     return map( timeline, "{
-                \ 'word' : '@'.v:val.user.screen_name.': '.v:val.text.' [<['.v:val.created_at.']>]',
+                \ 'word' : v:val,
                 \ 'is_multiline' : 1,
                 \ }")
 endfunction
