@@ -35,7 +35,7 @@ function! s:source.hooks.on_syntax(args, context)
     syntax match uniteSource__Twitter_Time       /\[<\[[^\]]\+\]>\]/ contained containedin=uniteSource__Twitter
     syntax match uniteSource__Twitter_TimeBlock  /\[<\[/ conceal contained containedin=uniteSource__Twitter_Time
     syntax match uniteSource__Twitter_TimeBlock  /\]>\]/ conceal contained containedin=uniteSource__Twitter_Time
-    syntax match uniteSource__Twitter_TimeBlock  /#[^ \t]\+/ conceal contained containedin=uniteSource__Twitter_Hashtag
+    syntax match uniteSource__Twitter_Hashtag  /#[^ \n]\+/ contained containedin=uniteSource__Twitter
     highlight default link uniteSource__Twitter_ScreenName String
     highlight default link uniteSource__Twitter_Time       NonText
     highlight default link uniteSource__Twitter_Hashtag    Constant
